@@ -1,12 +1,16 @@
-FROM alpine:3 AS downloader
-ARG VERSION=0.22.23
-RUN apk add --no-cache unzip ca-certificates wget
-RUN wget https://github.com/pocketbase/pocketbase/releases/download/v${VERSION}/pocketbase_${VERSION}_linux_amd64.zip \
-    && unzip pocketbase_${VERSION}_linux_amd64.zip \
-    && chmod +x /pocketbase
+FROM alpine:latest
 
-FROM scratch
-EXPOSE 8090
-COPY --from=downloader /pocketbase /usr/local/bin/pocketbase
-COPY pb_data /pb_data  # Your addition
-CMD ["/usr/local/bin/pocketbase", "serve", "--http=0.0.0.0:8090", "--dir=/pb_data"]
+ARG PB_VERSION=0.23.11
+
+RUN apk add --no-cache \
+    unzip \
+    ca-certificates
+
+# download and unzip PocketBase
+ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
+RUN unzip /tmp/pb.zip -d /pb/
+
+EXPOSE 8080
+COPY pb_data /pb_data
+# start PocketBase
+CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
