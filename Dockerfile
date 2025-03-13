@@ -11,6 +11,6 @@ ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/po
 RUN unzip /tmp/pb.zip -d /pb/
 
 EXPOSE 8080
-
+COPY pb_data /pb_data
 # start PocketBase
 CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
