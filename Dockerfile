@@ -8,5 +8,5 @@ RUN wget https://github.com/pocketbase/pocketbase/releases/download/v${VERSION}/
 FROM scratch
 EXPOSE 8090
 COPY --from=downloader /pocketbase /usr/local/bin/pocketbase
-COPY pb_data /pb_data  # This ensures pb_data is included in the container
+COPY pb_data /pb_data  # Ensure pb_data is included
 CMD ["/usr/local/bin/pocketbase", "serve", "--http=0.0.0.0:8090", "--dir=/pb_data"]
