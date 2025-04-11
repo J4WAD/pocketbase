@@ -1,5 +1,5 @@
 FROM alpine:3.19 AS downloader
-ARG VERSION=0.23.6
+ARG VERSION=0.26.6
 RUN apk add --no-cache unzip ca-certificates wget
 RUN wget https://github.com/pocketbase/pocketbase/releases/download/v${VERSION}/pocketbase_${VERSION}_linux_amd64.zip \
     && unzip pocketbase_${VERSION}_linux_amd64.zip \
